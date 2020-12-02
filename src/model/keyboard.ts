@@ -33,5 +33,3 @@ export const KEYBOARD = [
     { value: "<", onClick: pop }
   ]
 ];
-
-export const $keyBoardDec = createStore(KEYBOARD);
