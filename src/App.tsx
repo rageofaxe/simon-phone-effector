@@ -6,6 +6,8 @@ import "./model/init";
 import store, { restart, nextLevel, autoPressFx } from "./model/index";
 import { KEYBOARD } from "./model/keyboard";
 
+// TODO: try to use useList instead map
+
 export default () => {
   const {
     $pressedValues,
