@@ -4,24 +4,26 @@ import {
   createStore,
   combine,
   sample,
-  Store,
+  Effect,
   attach
 } from "effector";
+
+import { PadButton } from './types';
 
 import { enablePadMapper, autoPressMapper } from "./helper";
 import { $pressedValues } from "./keyboard";
 
 // Events:
-export const start = createEvent<void>();
-export const restart = createEvent<void>();
-export const nextLevel = createEvent<void>();
+export const start = createEvent();
+export const restart = createEvent();
+export const nextLevel = createEvent();
 
 // Stores:
-export const $currentLevelindex: Level = createStore(0);
-export const $autoPressedValues: AutoPressedValues = createStore<string[]>([]);
-export const $isFillingValues: Flag = createStore<boolean>(true);
-export const $isStarted: Flag = createStore<boolean>(false);
-export const $isNextLevel: Flag = createStore<boolean>(false);
+export const $currentLevelindex = createStore(0);
+export const $autoPressedValues = createStore<PadButton[]>([]);
+export const $isFillingValues = createStore<boolean>(true);
+export const $isStarted = createStore<boolean>(false);
+export const $isNextLevel = createStore<boolean>(false);
 
 export const $isEndAutoPressing = sample({
   source: $currentLevelindex,
@@ -31,13 +33,13 @@ export const $isEndAutoPressing = sample({
 });
 
 // Effects:
-export const tickFx = createEffect();
+export const tickFx = createEffect<any, PadButton>();
 export const autoPressFx = attach({
   source: $currentLevelindex,
   effect: tickFx,
   mapParams: autoPressMapper
 });
-export const enablePadFx = attach({
+export const enablePadFx: Effect<boolean, any> = attach({
   source: $currentLevelindex,
   effect: tickFx,
   mapParams: enablePadMapper
@@ -51,7 +53,3 @@ export default combine({
   $isNextLevel,
   $currentLevelindex
 });
-
-type Flag = Store<boolean>;
-type Level = Store<number>;
-type AutoPressedValues = Store<string[]>;

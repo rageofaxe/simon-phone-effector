@@ -3,7 +3,7 @@ import { KEYBOARD } from "./keyboard";
 const random = (max = 3) => Math.floor(Math.random() * max);
 
 export const enablePadMapper = () => true;
-export const autoPressMapper = (_, currentLevelIndex) => {
+export const autoPressMapper = (_: any, currentLevelIndex: number) => {
   const i = random();
   const j = random();
   return {
