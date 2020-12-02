@@ -9,7 +9,6 @@ import {
 } from "effector";
 
 import { PadButton } from './types';
-
 import { enablePadMapper, autoPressMapper } from "./helper";
 import { $pressedValues } from "./keyboard";
 
@@ -34,7 +33,7 @@ export const $isEndAutoPressing = sample({
 
 // Effects:
 export const tickFx = createEffect<any, PadButton>();
-export const autoPressFx = attach({
+export const autoPressFx: Effect<any, PadButton> = attach({
   source: $currentLevelindex,
   effect: tickFx,
   mapParams: autoPressMapper
@@ -46,10 +45,10 @@ export const enablePadFx: Effect<boolean, any> = attach({
 });
 
 export default combine({
-  $pressedValues,
-  $autoPressedValues,
-  $isFillingValues,
-  $isStarted,
-  $isNextLevel,
-  $currentLevelindex
+  pressedValues: $pressedValues,
+  autoPressedValues: $autoPressedValues,
+  isFillingValues: $isFillingValues,
+  isStarted: $isStarted,
+  isNextLevel: $isNextLevel,
+  currentLevelindex: $currentLevelindex
 });

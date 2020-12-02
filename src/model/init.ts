@@ -1,5 +1,4 @@
 import { forward, guard, sample } from "effector";
-// import { enablePadMapper, autoPressMapper } from "./helper";
 import { $pressedValues } from "./keyboard";
 import {
   $autoPressedValues,
@@ -12,11 +11,11 @@ import {
   nextLevel,
   autoPressFx,
   enablePadFx,
-  tickFx
+  tickFx,
 } from "./index";
 
 // Effects:
-tickFx.use(padButton => {
+tickFx.use((padButton) => {
   return new Promise((res) => {
     setTimeout(() => {
       res(padButton);
@@ -29,9 +28,7 @@ $autoPressedValues
   .on(autoPressFx.done, (state, { result }) => [...state, result])
   .reset(restart);
 
-$isFillingValues
-  .on(enablePadFx.done, () => false)
-  .reset(restart);
+$isFillingValues.on(enablePadFx.done, () => false).reset(restart);
 
 $isStarted.on(autoPressFx, () => true).reset(restart);
 
@@ -43,21 +40,21 @@ $currentLevelindex.on(nextLevel, (state) => state + 1);
 // Highlight last autopressed button:
 guard({
   source: $isEndAutoPressing,
-  filter: (x) => !x,
-  target: enablePadFx
+  filter: (isEndAutoPressing) => !isEndAutoPressing,
+  target: enablePadFx,
 });
 
 // Auto pressing loop
 guard({
   source: $autoPressedValues,
   filter: $isEndAutoPressing,
-  target: autoPressFx
+  target: autoPressFx,
 });
 
 // Forwarding of nextLevel event
 forward({
   from: nextLevel,
-  to: restart
+  to: restart,
 });
 
 // Verifying input
@@ -67,5 +64,5 @@ sample({
   target: $isNextLevel,
   fn: (autoPressedValues, dialPad) =>
     dialPad.length > 0 &&
-    dialPad.join("") === autoPressedValues.map(({value}) => value).join("")
+    dialPad.join("") === autoPressedValues.map(({ value }) => value).join(""),
 });
