@@ -1,5 +1,6 @@
 import { KEYBOARD } from "./keyboard";
-import { random } from "../utils";
+
+const random = (max = 3) => Math.floor(Math.random() * max);
 
 export const enablePadMapper = () => true;
 export const autoPressMapper = (_, currentLevelIndex) => {
