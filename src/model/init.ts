@@ -16,10 +16,10 @@ import {
 } from "./index";
 
 // Effects:
-tickFx.use((x) => {
+tickFx.use(padButton => {
   return new Promise((res) => {
     setTimeout(() => {
-      res(x);
+      res(padButton);
     }, 500);
   });
 });
@@ -29,7 +29,9 @@ $autoPressedValues
   .on(autoPressFx.done, (state, { result }) => [...state, result])
   .reset(restart);
 
-$isFillingValues.on(enablePadFx.done, () => false).reset(restart);
+$isFillingValues
+  .on(enablePadFx.done, () => false)
+  .reset(restart);
 
 $isStarted.on(autoPressFx, () => true).reset(restart);
 
@@ -65,5 +67,5 @@ sample({
   target: $isNextLevel,
   fn: (autoPressedValues, dialPad) =>
     dialPad.length > 0 &&
-    dialPad.join("") === autoPressedValues.map((x) => x.value).join("")
+    dialPad.join("") === autoPressedValues.map(({value}) => value).join("")
 });

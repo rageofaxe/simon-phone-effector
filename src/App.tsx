@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useStore, useList } from "effector-react";
+import { useStore } from "effector-react";
 
 import "./model/init";
 import store, { restart, nextLevel, autoPressFx } from "./model/index";
@@ -17,7 +17,7 @@ export default () => {
     $isNextLevel
   } = useStore(store);
 
-  const lastElement = $autoPressedValues[$autoPressedValues.length - 1] || {};
+  const lastElement = $autoPressedValues[$autoPressedValues.length - 1] || {i: -1, j: -1};
 
   return (
     <div>
@@ -28,7 +28,7 @@ export default () => {
           <br />
           {row.map((btn, i) => (
             <button
-              onClick={btn.onClick}
+              onClick={() => btn.onClick()}
               disabled={$isFillingValues}
               style={
                 i === lastElement.i && j === lastElement.j && $isFillingValues
@@ -46,9 +46,9 @@ export default () => {
       <br />
       {!$isStarted && <button onClick={autoPressFx}>start</button>}
       {!$isFillingValues && !$isNextLevel && (
-        <button onClick={restart}>restart</button>
+        <button onClick={() => restart()}>restart</button>
       )}
-      {$isNextLevel && <button onClick={nextLevel}>next level</button>}
+      {$isNextLevel && <button onClick={() => nextLevel()}>next level</button>}
     </div>
   );
 };
