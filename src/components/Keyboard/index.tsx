@@ -1,9 +1,13 @@
 import React from "react";
-import { useStore } from "effector-react";
 
-import store from "../../model/index";
 import { KEYBOARD } from "../../model/keyboard";
+import { PadButton } from "../../model/types";
 // TODO: try to use useList instead map
+
+type Keyboard = {
+    highlightedButton: PadButton,
+    filledDisplay: boolean
+}
 
 const rowStyle = {
   display: "flex",
@@ -14,9 +18,8 @@ const buttonStyle = {
   padding: "12px 0",
 };
 
-export default () => {
-  const { autoPressedValues, isFillingValues } = useStore(store);
-  const lastElement = autoPressedValues[autoPressedValues.length - 1] || {};
+export default (props: Keyboard) => {
+  const { highlightedButton, filledDisplay } = props;
 
   return (
     <>
@@ -25,9 +28,9 @@ export default () => {
           {row.map((btn, i) => (
             <button
               onClick={() => btn.onClick()}
-              disabled={isFillingValues}
+              disabled={filledDisplay}
               style={
-                i === lastElement.i && j === lastElement.j && isFillingValues
+                i === highlightedButton.i && j === highlightedButton.j && filledDisplay
                   ? {
                       ...buttonStyle,
                       borderColor: "red",

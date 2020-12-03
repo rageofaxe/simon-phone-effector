@@ -18,7 +18,7 @@ export const restart = createEvent();
 export const nextLevel = createEvent();
 
 // Stores:
-export const $currentLevelindex = createStore(0);
+export const $currentLevelindex = createStore<number>(0);
 export const $autoPressedValues = createStore<PadButton[]>([]);
 export const $isFillingValues = createStore<boolean>(true);
 export const $isStarted = createStore<boolean>(false);
@@ -47,7 +47,7 @@ export const enablePadFx: Effect<boolean, any> = attach({
 export default combine({
   pressedValues: $pressedValues,
   autoPressedValues: $autoPressedValues,
-  isFillingValues: $isFillingValues,
+  filledDisplay: $isFillingValues,
   isStarted: $isStarted,
   isNextLevel: $isNextLevel,
   currentLevelindex: $currentLevelindex
